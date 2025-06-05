@@ -1,5 +1,5 @@
 --对应代码2-5 和 2-6
-
+--为Pmain.lua的代码
 local skynet = require("skynet")
 local socket = require("skynet.socket")
 
