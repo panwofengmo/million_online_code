@@ -19,4 +19,4 @@ lua_cpath = "./luaclib/?.so;" .. "./skynet/luaclib/?.so;"
 --logger = "./userlog"
 
 --节点
-node = "node1"
+node = "node2"
