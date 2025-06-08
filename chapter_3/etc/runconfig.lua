@@ -7,6 +7,7 @@ return {
 	},
 	--agentmgr
 	agentmgr = {
+		--全局唯一的agentmgr服务位于节点1处
 		node = "node1"
 	},
 	--scene
@@ -19,6 +20,19 @@ return {
 			[1] = {port=8001},
 			[2] = {port=8002},
 		},
-		
+		login = {
+			[1] = {},
+			[2] = {},
+		},
+	},
+	node2 = {
+		gateway = {
+			[1] = {port=8011},
+			[2] = {port=8022},
+		},
+		login = {
+			[1] = {},
+			[2] = {},
+		},
 	}
 }
