@@ -12,8 +12,28 @@ local M = {
 	resp = {},
 }
 
+local dispatch = function(session, source, cmd, ...)
+	skynet.error("ohfTest, dispatch收到消息", M.name, cmd)
+	local fun = M.resp[cmd]
+	if not fun then
+		skynet.error("ohfTest, dispatch没找到相应接口", cmd)
+		skynet.ret()
+		return
+	end
+	local success, tab_result = xpcall(fun, traceback, source, ...)
+	skynet.error("ohfTest, 什么类型2", type(success), type(tab_result))
+	local isok = success
+	if not isok then
+		skynet.ret()
+		return
+	end
+	tab_result = tab_result or {}
+	skynet.retpack(table.unpack(tab_result))
+end
+
 function init()
-	skynet.dispatch("lua", dispatch)
+	skynet.error("ohfTest, 注册dispatch函数", M.name, M.id)
+	skynet.dispatch("lua", dispatch)	--将下面的dispatch函数注册为lua消息的处理函数
 	if M.init then
 		M.init()
 	end
@@ -28,21 +48,6 @@ end
 function traceback(err)
 	skynet.error(tostring(err))
 	skynet.error(debug.traceback())
-end
-
-function dispatch(session, source, cmd, ...)
-	local fun = M.resp[cmd]
-	if not fun then
-		skynet.ret()
-		return
-	end
-	local ret  = xpcall(fun, traceback, source, ...)
-	local isok = ret[1]
-	if not isok then
-		skynet.ret()
-		return
-	end
-	skynet.retpack(table.unpack(ret, 2))
 end
 
 function M.call(node, srv, ...)
